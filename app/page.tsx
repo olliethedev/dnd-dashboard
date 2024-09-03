@@ -1,14 +1,12 @@
 import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
 
-import { CalendarDateRangePicker } from "@/components/date-range-picker";
+// navigation components
+import { UserNav } from "@/components/user-nav";
 import { MainNav } from "@/components/main-nav";
-import { Overview } from "@/components/overview";
-import { RecentSales } from "@/components/recent-sales";
-import { Search } from "@/components/search";
-import { Stats } from "@/components/stats";
-import TeamSwitcher from "@/components/team-switcher";
-import { Transactions } from "@/components/transactions";
+import { CalendarDateRangePicker } from "@/components/date-range-picker";
+
+// basic components
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,14 +15,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { UserNav } from "@/components/user-nav";
+
+// high level components
+import { Search } from "@/components/search";
+import { TeamSwitcher } from "@/components/team-switcher";
+import { RecentSales } from "@/components/recent-sales";
+import { Transactions } from "@/components/transactions";
+import { Stats } from "@/components/stats";
+import { Overview } from "@/components/overview";
+
+// Skeleton loaders
 import { StatsLoader } from "@/components/stats-loader";
+import { SwapLayoutLoader } from "@/components/swap-layout-loader";
+import { OverviewLoader } from "@/components/overview-loader";
+import { RecentSalesLoader } from "@/components/recent-sales-loader";
+import { TransactionsLoader } from "@/components/transactions-loader";
 
 // swap layout is a client side component, since it uses local storage for this demo.
 // In production you might want to save the layout order on server via api call
 const SwapLayout = dynamic(() => import("@/components/swap-layout"), {
   ssr: false,
-  loading: () => <div>Loading Client Side...</div>,
+  loading: () => <SwapLayoutLoader />,
 });
 
 // This is the main page of the app.
@@ -82,7 +93,9 @@ const initialSwapSections = {
         <CardTitle>Overview</CardTitle>
       </CardHeader>
       <CardContent className="pl-2">
-        <Overview />
+        <Suspense key={"overview"} fallback={<OverviewLoader />}>
+          <Overview />
+        </Suspense>
       </CardContent>
     </Card>
   ),
@@ -93,7 +106,9 @@ const initialSwapSections = {
         <CardDescription>You made 265 sales this month.</CardDescription>
       </CardHeader>
       <CardContent>
-        <RecentSales />
+        <Suspense key={"recent-sales"} fallback={<RecentSalesLoader />}>
+          <RecentSales />
+        </Suspense>
       </CardContent>
     </Card>
   ),
@@ -108,7 +123,9 @@ const initialSwapSections = {
         </div>
       </CardHeader>
       <CardContent>
-        <Transactions />
+        <Suspense key={"transactions"} fallback={<TransactionsLoader />}>
+          <Transactions />
+        </Suspense>
       </CardContent>
     </Card>
   ),

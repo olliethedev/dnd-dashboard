@@ -2,7 +2,8 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export async function Stats() {
-  await new Promise((resolve) => setTimeout(resolve, 4000));
+  // simulate a delay
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   return (
     <div className="flex flex-wrap gap-4">

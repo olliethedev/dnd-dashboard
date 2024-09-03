@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 const data = [
   {
@@ -51,9 +51,11 @@ const data = [
     name: "Dec",
     total: Math.floor(Math.random() * 5000) + 1000,
   },
-]
+];
 
-export function Overview() {
+export async function Overview() {
+  // simulate a delay
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>
@@ -80,5 +82,5 @@ export function Overview() {
         />
       </BarChart>
     </ResponsiveContainer>
-  )
+  );
 }
